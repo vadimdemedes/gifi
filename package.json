@@ -1,0 +1,22 @@
+{
+  "name": "gifi",
+  "version": "1.0.0",
+  "description": "npm install + gifs",
+  "license": "MIT",
+  "repository": "vdemedes/gifi",
+  "author": {
+    "name": "Vadim Demedes",
+    "email": "vdemedes@gmail.com",
+    "url": "https://github.com/vdemedes"
+  },
+  "files": [
+    "cli.js"
+  ],
+  "bin": "cli.js",
+  "dependencies": {
+    "array-shuffle": "^1.0.0",
+    "each-series": "^1.0.0",
+    "imgcat": "^0.1.1",
+    "tempfile": "^1.1.1"
+  }
+}
