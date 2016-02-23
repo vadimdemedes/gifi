@@ -16,6 +16,7 @@
   "dependencies": {
     "array-shuffle": "^1.0.0",
     "each-series": "^1.0.0",
+    "got": "^6.1.1",
     "imgcat": "^0.1.1",
     "tempfile": "^1.1.1"
   }
