@@ -90,7 +90,7 @@ function displayImages (res) {
 
 	each(shuffle(images), function (url, i, done) {
 		showImage(url, function () {
-			setTimeout(done, 5000);
+			setTimeout(done, 3000);
 		});
 	});
 }
