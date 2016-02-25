@@ -1,7 +1,7 @@
 {
   "name": "gifi",
   "version": "1.0.1",
-  "description": "npm install + gifs",
+  "description": "watch GIFs while running npm install",
   "license": "MIT",
   "repository": "vdemedes/gifi",
   "author": {
