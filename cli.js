@@ -22,30 +22,30 @@ const imgcat = join(__dirname, 'node_modules', '.bin', 'imgcat');
  */
 
 let args = process.argv.slice(2);
-
-if (args[0] === 'i' || args[0] === 'install') {
-	args.shift();
-}
-
-args.unshift('install');
-
-// imgcat process
+let ps = npm(args);
 let gif;
 
-// npm install process
-let install = spawn('npm', args, {
-	cwd: process.cwd(),
-	stdio: 'ignore'
-});
+if (isInstall) {
+	findImages()
+		.then(displayImages)
+		.catch(errorHandler);
 
-install.on('exit', function (code) {
-	gif.kill();
-	process.exit(code);
-});
+	ps.on('exit', function (code) {
+		gif.kill();
+		process.exit(code);
+	});
+}
 
-findImages()
-	.then(displayImages)
-	.catch(errorHandler);
+function isInstall (args) {
+	return args[0] === 'i' || args[0] === 'install';
+}
+
+function npm (args) {
+	return spawn('npm', args, {
+		cwd: process.cwd(),
+		stdio: isInstall(args) ? 'ignore' : 'inherit'
+	});
+}
 
 function findImages () {
 	return got('http://api.giphy.com/v1/gifs/trending', {
