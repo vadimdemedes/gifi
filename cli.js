@@ -31,7 +31,10 @@ if (isInstall) {
 		.catch(errorHandler);
 
 	ps.on('exit', function (code) {
-		gif.kill();
+		if (gif) {
+			gif.kill();
+		}
+
 		process.exit(code);
 	});
 }
