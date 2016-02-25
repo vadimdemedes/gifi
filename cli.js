@@ -8,9 +8,11 @@
 
 const tempfile = require('tempfile');
 const shuffle = require('array-shuffle');
+const isIterm = require('is-iterm');
 const spawn = require('child_process').spawn;
 const each = require('each-series');
 const join = require('path').join;
+const open = require('opn');
 const got = require('got');
 const fs = require('fs');
 
@@ -25,7 +27,7 @@ let args = process.argv.slice(2);
 let ps = npm(args);
 let gif;
 
-if (isInstall) {
+if (isInstall(args)) {
 	findImages()
 		.then(displayImages)
 		.catch(errorHandler);
@@ -59,25 +61,37 @@ function findImages () {
 	});
 }
 
+function showImage (url, done) {
+	if (!isIterm) {
+		open(url);
+		done();
+		return;
+	}
+
+	let path = tempfile();
+	let image = fs.createWriteStream(path);
+
+	image.on('finish', function () {
+		gif = spawn(imgcat, [path], {
+			cwd: process.cwd(),
+			stdio: 'inherit'
+		});
+
+		done();
+	});
+
+	got.stream(url).pipe(image);
+}
+
 function displayImages (res) {
 	let images = res.body.data.map(function (image) {
 		return image.images.fixed_width.url;
 	});
 
 	each(shuffle(images), function (url, i, done) {
-		let path = tempfile();
-		let image = fs.createWriteStream(path);
-
-		image.on('finish', function () {
-			gif = spawn(imgcat, [path], {
-				cwd: process.cwd(),
-				stdio: 'inherit'
-			});
-
+		showImage(url, function () {
 			setTimeout(done, 5000);
 		});
-
-		got.stream(url).pipe(image);
 	});
 }
 
