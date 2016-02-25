@@ -25,6 +25,18 @@ Replace `npm` with `gifi` and you're done:
 $ gifi install koa --save
 ```
 
+## Key to happiness
+
+Alias `npm` to `gifi` and you're golden, `npm install` will never be boring again.
+As a matter of fact, after using gifi you'll want `npm install` to be slower, because
+you don't have enough time to watch all those great GIFs.
+
+Add this to ~/.bashrc or ~/.zshrc:
+
+```
+alias npm=gifi
+```
+
 
 ## License
 
