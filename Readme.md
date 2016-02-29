@@ -4,6 +4,7 @@
 
 So, it works exactly as advertised, watch GIFs right in your terminal while `npm install` is running.
 
+**Note**: Currently, GIFs are only displayed inline for [users of iTerm2 using version 2.9 or greater](https://www.iterm2.com/images.html). If you are not using a supported version of iTerm2, GIFs will open in your default browser.
 
 ## Demo
 
