@@ -88,7 +88,7 @@ function showImage (url, done) {
 
 function displayImages (res) {
 	let images = res.body.data.map(function (image) {
-		return image.images.original.url;
+		return image.images.fixed_height.url;
 	});
 
 	each(shuffle(images), function (url, i, done) {
