@@ -6,26 +6,26 @@
  * Dependencies
  */
 
-const tempfile = require('tempfile');
-const shuffle = require('array-shuffle');
-const isIterm = require('is-iterm');
-const spawn = require('child_process').spawn;
-const each = require('each-series');
-const join = require('path').join;
-const open = require('opn');
-const got = require('got');
-const fs = require('fs');
+var tempfile = require('tempfile');
+var shuffle = require('array-shuffle');
+var isIterm = require('is-iterm');
+var spawn = require('child_process').spawn;
+var each = require('each-series');
+var join = require('path').join;
+var open = require('opn');
+var got = require('got');
+var fs = require('fs');
 
-const imgcat = join(__dirname, 'node_modules', '.bin', 'imgcat');
+var imgcat = join(__dirname, 'node_modules', '.bin', 'imgcat');
 
 
 /**
  * npm install + gifs
  */
 
-let args = process.argv.slice(2);
-let ps = npm(args);
-let gif;
+var args = process.argv.slice(2);
+var ps = npm(args);
+var gif;
 
 if (isInstall(args)) {
 	findImages()
@@ -68,8 +68,8 @@ function showImage (url, done) {
 		return;
 	}
 
-	let path = tempfile();
-	let image = fs.createWriteStream(path);
+	var path = tempfile();
+	var image = fs.createWriteStream(path);
 
 	image.on('finish', function () {
 		gif = spawn(imgcat, [path], {
@@ -87,7 +87,7 @@ function showImage (url, done) {
 }
 
 function displayImages (res) {
-	let images = res.body.data.map(function (image) {
+	var images = res.body.data.map(function (image) {
 		return image.images.fixed_height.url;
 	});
 
