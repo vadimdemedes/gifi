@@ -87,9 +87,13 @@ function showImage (url, done) {
 }
 
 function displayImages (res) {
-	var images = res.body.data.map(function (image) {
-		return image.images.original.url;
-	});
+	var images = res.body.data
+		.filter(function (image) {
+			return image.images.original.height <= 400;
+		})
+		.map(function (image) {
+			return image.images.original.url;
+		});
 
 	each(shuffle(images), function (url, i, done) {
 		showImage(url, function () {
