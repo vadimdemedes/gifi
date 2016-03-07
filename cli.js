@@ -48,7 +48,7 @@ function isInstall (args) {
 function npm (args) {
 	return spawn('npm', args, {
 		cwd: process.cwd(),
-		stdio: isInstall(args) ? 'ignore' : 'inherit'
+		stdio: isInstall(args) ? ['ignore', 'ignore', process.stderr] : 'inherit'
 	});
 }
 
