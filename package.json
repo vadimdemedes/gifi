@@ -17,7 +17,7 @@
     "array-shuffle": "^1.0.0",
     "cross-spawn-async": "^2.1.9",
     "each-series": "^1.0.0",
-    "got": "^6.1.1",
+    "got": "^5.5.0",
     "imgcat": "^0.1.1",
     "is-iterm": "^1.0.0",
     "opn": "^4.0.0",
