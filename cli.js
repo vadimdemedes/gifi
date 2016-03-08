@@ -15,8 +15,11 @@ var join = require('path').join;
 var open = require('opn');
 var got = require('got');
 var fs = require('fs');
+var giffyBreak = require('giffy-break');
 
 var imgcat = join(__dirname, 'node_modules', '.bin', 'imgcat');
+
+var API_KEY = 'dc6zaTOxFJmzC';
 
 
 /**
@@ -28,17 +31,32 @@ var ps = npm(args);
 var gif;
 
 if (isInstall(args)) {
-	findImages()
-		.then(displayImages)
-		.catch(errorHandler);
+	if (isIterm) {
+		findImages()
+			.then(displayImages)
+			.catch(errorHandler);
 
-	ps.on('exit', function (code) {
-		if (gif) {
-			gif.kill();
-		}
+		ps.on('exit', function (code) {
+			if (gif) {
+				gif.kill();
+			}
 
-		process.exit(code);
-	});
+			process.exit(code);
+		});
+	} else {
+		var promise = new Promise(function (resolve, reject) {
+			ps.on('exit', function (code) {
+				(code === 0 ? resolve : reject)(code);
+			});
+		});
+
+		giffyBreak(promise, API_KEY, {
+			interval: 3000,
+			startMessage: 'Running <code>$ npm ' + args.join(' ') + '</code>'
+		})
+			.then(open)
+			.catch(errorHandler);
+	}
 }
 
 function isInstall (args) {
@@ -56,18 +74,12 @@ function findImages () {
 	return got('http://api.giphy.com/v1/gifs/trending', {
 		json: true,
 		query: {
-			api_key: 'dc6zaTOxFJmzC'
+			api_key: API_KEY
 		}
 	});
 }
 
 function showImage (url, done) {
-	if (!isIterm) {
-		open(url);
-		done();
-		return;
-	}
-
 	var path = tempfile();
 	var image = fs.createWriteStream(path);
 
