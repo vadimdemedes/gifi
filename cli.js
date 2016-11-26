@@ -73,11 +73,8 @@ function showImage (url, done) {
 
 	image.on('finish', function () {
 		gif = spawn(imgcat, [path], {
-			cwd: process.cwd()
-		});
-
-		gif.stdout.on('data', function (data) {
-			process.stdout.write(data);
+			cwd: process.cwd(),
+			stdio: 'inherit'
 		});
 
 		done();
