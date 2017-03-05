@@ -62,23 +62,33 @@ function findImages () {
 }
 
 function showImage (url, done) {
-	if (!isIterm) {
+	if (process.platform !== 'darwin') {
 		open(url);
 		done();
 		return;
 	}
 
-	var path = tempfile();
+	var path = tempfile('.gif');
 	var image = fs.createWriteStream(path);
 
 	image.on('finish', function () {
-		gif = spawn(imgcat, [path], {
-			cwd: process.cwd()
-		});
+		if (isIterm) {
+			gif = spawn(imgcat, [path], {
+				cwd: process.cwd()
+			});
 
-		gif.stdout.on('data', function (data) {
-			process.stdout.write(data);
-		});
+			gif.stdout.on('data', function (data) {
+				process.stdout.write(data);
+			});
+		} else {
+			if (gif) {
+				gif.kill();
+			}
+
+			gif = spawn('qlmanage', ['-p', path], {
+				stdio: 'ignore'
+			});
+		}
 
 		done();
 	});
